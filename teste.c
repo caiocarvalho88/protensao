@@ -1,14 +1,17 @@
 ﻿#include<stdio.h>
 #include<stdlib.h>
 #include <conio.h>
+#include <math.h>
+#include <tgmath.h>
 
 int main()
 {
    int x;
-   float fkn, aco, f, tensao, s, beta, mi, n;
+   float fkn, aco, f, tensao, beta, mi;
+   int s, n;
 
     // Etapa 01 - Definição de grandeza física a ser calculada
-    printf("digite a grandeza física a ser utilizada:\n 1- Tensao MPa \n 2-Forca\n (kN)\n");
+    printf("digite a grandeza fisica a ser utilizada:\n 1- Tensao MPa \n 2-Forca\n (kN)\n");
     scanf("%d",&x);
 
     while(x!=1&x!=2)
@@ -43,7 +46,7 @@ int main()
     if(x==1)
     {
         printf("entre com quantidade de secoes, valor de Beta, valor de coeficiente de atrito\n");
-        scanf("%f%f%f",&s,&beta,&mi);
+        scanf("%i%f%f",&n,&beta,&mi);
         n = s+1;
         float *comp, *ang, *vetorz;
     
@@ -59,16 +62,16 @@ int main()
         a = (float *) malloc(n * sizeof(float));
         p = (float *) malloc(n * sizeof(float));
         e = (float *) malloc(n * sizeof(float));
-        const double PI  =3.141592653589793238463;
+        const double PI  = 3.141592653589793238463;
         float b, F;
         int i, j;
     
         // Etapa 04 - Definição da situação de pré-tração
-        printf(" Escolha como ira calcular a perda por atrito\n Digite:\n 1 - para usar angulos \n 2 - para usar pontos ");
+        printf(" Escolha como ira calcular a perda por atrito\n Digite:\n 1 - para usar angulos \n 2 - para usar pontos \n");
         scanf("%d", &x);
         while(x!=1&x!=2)
         {
-            printf("Esta escolha nao existe \n \n Escolha como ira calcular a perda por atrito\n Digite:\n 1 - para usar angulos \n 2 - para usar pontos");
+            printf("Esta escolha nao existe \n \n Escolha como ira calcular a perda por atrito\n Digite:\n 1 - para usar angulos \n 2 - para usar pontos\n");
             scanf("%d",&x);
         }
         switch(x)
@@ -76,18 +79,18 @@ int main()
             case    '1':
                 for(i=1;i<n;i++)
                 {
-                    printf("Digite o comprimento da secao em metros (m):\n");
+                    printf("Digite o comprimento da secao %i em metros (m):\n", i);
                     scanf("%f",&comp[i]);
-                    printf("Digite o angulo da secaoo em graus (alpha):\n");
+                    printf("Digite o angulo da secaoo %i em graus (alpha):\n", i);
                     scanf("%f",&ang[i]);
 
-                        j=i-1;
+                        /*j=i-1;
                         D[i] = comp[i]+D[j];
                         da[i] = a[i] + da[j];
                         dar[i] = da[i]*PI/180;
                         e[i] = exp(-mi * (dar[i]+b*(D[i])));
                         p[i] = F*e[i];
-                        i = i+1;
+                        i = i+1;*/
                 }
                 printf("a protensao eh feita em ambos os lados?\n digite:\n 1- para SIM\n 2- para NAO");
                 scanf("%d",&x);
@@ -102,6 +105,7 @@ int main()
                 }
         }
     }//fechamento do if=1
-return 0;
+    printf("fim\n");
+    return 0;
 }
 
