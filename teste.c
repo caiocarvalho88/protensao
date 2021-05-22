@@ -51,7 +51,17 @@ int main()
         ang = (float *) malloc(n * sizeof(float));
         vetorz = (float *) malloc(n * sizeof(float));
 
-        int i;
+        //variáveis auxiliares
+        float *D, *da, *dar, *a, *p, *e;
+        D = (float *) malloc(n * sizeof(float));
+        da = (float *) malloc(n * sizeof(float));
+        dar = (float *) malloc(n * sizeof(float));
+        a = (float *) malloc(n * sizeof(float));
+        p = (float *) malloc(n * sizeof(float));
+        e = (float *) malloc(n * sizeof(float));
+        const double PI  =3.141592653589793238463;
+        float b, F;
+        int i, j;
     
         // Etapa 04 - Definição da situação de pré-tração
         printf(" Escolha como ira calcular a perda por atrito\n Digite:\n 1 - para usar angulos \n 2 - para usar pontos ");
@@ -68,13 +78,13 @@ int main()
                 {
                     printf("Digite o comprimento da secao em metros (m):\n");
                     scanf("%f",&comp[i]);
-                    printf("Digite o angulo da secaoo em graus (�):\n");
+                    printf("Digite o angulo da secaoo em graus (alpha):\n");
                     scanf("%f",&ang[i]);
 
                         j=i-1;
                         D[i] = comp[i]+D[j];
                         da[i] = a[i] + da[j];
-                        dar[i] = da[i]*pi/180;
+                        dar[i] = da[i]*PI/180;
                         e[i] = exp(-mi * (dar[i]+b*(D[i])));
                         p[i] = F*e[i];
                         i = i+1;
