@@ -30,6 +30,7 @@ int main()
     else{
         printf("Digite o valor da tensao de protensao em MPa:\n");
         scanf("%f", &tensao);
+        f=tensao;
         //printf(" tensao = %f MPa\n ",tensao);pce2
     }
 
@@ -46,7 +47,8 @@ int main()
     if(x==1)
     {
         printf("entre com quantidade de secoes, valor de Beta, valor de coeficiente de atrito\n");
-        scanf("%i%f%f",&n,&beta,&mi);
+        scanf("%d%f%f",&s,&beta,&mi);
+         printf("%d   %f   %f\n", s, beta, mi);
         n = s+1;
         float *comp, *ang, *vetorz;
     
@@ -63,9 +65,17 @@ int main()
         p = (float *) malloc(n * sizeof(float));
         e = (float *) malloc(n * sizeof(float));
         const double PI  = 3.141592653589793238463;
-        float b, F;
-        int i, j;
+        float b;
+        int i;
     
+        //inicialização dos vetores de operação
+        D[0]=0;
+        da[0]=0;
+        dar[0]=0;
+        e[0]=1;
+        p[0]=f;
+        comp[0]=0;
+        ang[0]=0;
         // Etapa 04 - Definição da situação de pré-tração
         printf(" Escolha como ira calcular a perda por atrito\n Digite:\n 1 - para usar angulos \n 2 - para usar pontos \n");
         scanf("%d", &x);
@@ -74,23 +84,27 @@ int main()
             printf("Esta escolha nao existe \n \n Escolha como ira calcular a perda por atrito\n Digite:\n 1 - para usar angulos \n 2 - para usar pontos\n");
             scanf("%d",&x);
         }
+
         switch(x)
         {
-            case    '1':
+            case 1:
                 for(i=1;i<n;i++)
                 {
                     printf("Digite o comprimento da secao %i em metros (m):\n", i);
-                    scanf("%f",&comp[i]);
+                    scanf("%f",&comp[i]); //intervalo de análise do 
                     printf("Digite o angulo da secaoo %i em graus (alpha):\n", i);
                     scanf("%f",&ang[i]);
 
-                        /*j=i-1;
-                        D[i] = comp[i]+D[j];
-                        da[i] = a[i] + da[j];
-                        dar[i] = da[i]*PI/180;
-                        e[i] = exp(-mi * (dar[i]+b*(D[i])));
-                        p[i] = F*e[i];
-                        i = i+1;*/
+                        D[i] = comp[i]+D[i-1]; //comprimento acumulado
+                        da[i] = ang[i] + da[i-1]; //alfa acumulado
+                        dar[i] = da[i]*PI/180; //alfa acumulado em radiano
+                        e[i] = exp(-mi * (dar[i]+beta*(D[i]))); //fator redutor de tensão por perda de tensão
+                        p[i] = f*e[i]; // tensão resultante após a perda de tensão
+                }
+                printf("secao \t comp. \t acum. \t alfa \t ang. acum. \t fator \t tens. resul. \n");
+                for(i=0;i<n;i++)
+                {
+                    printf("%d \t %.2f \t %.2f \t %.2f \t %.2f \t %.2f \t %.2f \t %.2f \n", i, comp[i], D[i], ang[i], da[i], dar[i], e[i], p[i]);
                 }
                 printf("a protensao eh feita em ambos os lados?\n digite:\n 1- para SIM\n 2- para NAO");
                 scanf("%d",&x);
@@ -98,10 +112,14 @@ int main()
                 {
                     printf("Esta escolha nao existe \n \n a protensao eh feita em ambos os lados?\n digite:\n 1- para SIM\n 2- para NAO");
                     scanf("%d",&x);
-                    if(x==1)
-                    {
+                }
+                if(x==1)
+                {
 
-                    }
+                }
+                else
+                {
+                    
                 }
         }
     }//fechamento do if=1
