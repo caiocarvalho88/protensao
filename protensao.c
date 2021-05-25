@@ -202,11 +202,11 @@ int main()
         }
     }//fechamento do if=1
     //Etapa 04 - Cálculo da situação de pré-tração
-    else
+    /*else //pré-tração
     {
         printf("número de cabos:");
         printf("número de cabos:");
-    }
+    }*/
     ancoragem(n, lados, cond, aco, comp, p, pa, D);
     fclose(pont_arq);
     printf("fim\n");
