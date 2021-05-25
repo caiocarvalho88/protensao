@@ -18,7 +18,15 @@ int main()
     float fkn, aco, f, tensao, beta, mi;
     float *comp, *ang, *vetorz, *D, *da, *dar, *e, *p;
     float  *compi, *angi, *Di, *dai, *dari, *ei, *pinv;
-
+    /*FILE *pont_arq;
+    if(pont_arq==NULL)
+    {
+        printf("ERRO! O arquivo não foi aberto!\n");
+    }
+    else
+    {
+        printf("O arquivo foi aberto com sucesso!\n");
+    }*/
 
     // Etapa 01 - Definição de grandeza física a ser calculada
     printf("digite a grandeza fisica a ser utilizada:\n 1- Tensao MPa \n 2-Forca\n (kN)\n");
@@ -82,19 +90,8 @@ int main()
         angi = (float *) malloc(n * sizeof(float));      //ângulo alfa em graus
         
         //inicialização dos vetores de operação
-        D[0]=0;
-        da[0]=0;
-        dar[0]=0;
-        e[0]=1;
-        p[0]=f;
         comp[0]=0;
         ang[0]=0;
-
-        Di[0]=0;
-        dai[0]=0;
-        dari[0]=0;
-        ei[0]=1;
-        pinv[0]=f;
         compi[0]=0;
         angi[0]=0;
 
@@ -114,28 +111,17 @@ int main()
                 for(i=1;i<n;i++)
                 {
                     printf("Digite o comprimento da secao %i em metros (m):\n", i);
-                    scanf("%f",&comp[i]); //intervalo de análise do 
+                    scanf("%f",&comp[i]); //vertor de armazenamento dos comprmentos da seção em análise 
                     printf("Digite o angulo da secaoo %i em graus (alpha):\n", i);
-                    scanf("%f",&ang[i]);
+                    scanf("%f",&ang[i]); //vertor de armazenamento dos ângulos em grau da seção em análise
                 }
                 for(i=1;i<n;i++)
                 {
                     compi[i]=comp[n-i];
                     angi[i]=ang[n-i];
                 }
-                for(i=0;i<n;i++)
-                {
-                    printf("%.2f \t", comp[i]);
-                }
-                printf("\n");
-                for(i=0;i<n;i++)
-                {
-                    printf("%.2f \t", compi[i]);
-                }
-                printf("\n");
                 perdatensao(n, f, mi, beta, comp, D, ang, da, dar, e, p);
-                printf("Resultado da esquerda para a direita\n");
-                resultado(n, comp, D, ang, da, dar, e, p);
+                perdatensao(n, f, mi, beta, compi, Di, angi, dai, dari, ei, pinv);
                 printf("a protensao eh feita em ambos os lados?\n digite:\n 1- para SIM\n 2- para NAO\n");
                 scanf("%d",&x);
                 while(x!=1&x!=2)
@@ -145,17 +131,6 @@ int main()
                 }
                 if(x==1)
                 {
-                    perdatensao(n, f, mi, beta, compi, Di, angi, dai, dari, ei, pinv);
-                    /*for(i=1;i<n;i++)
-                    {
-                        compi[i]=comp[n-i];
-                        angi[i]=ang[n-i];
-                        Di[i] = compi[i]+Di[i-1]; //comprimento acumulado
-                        dai[i] = angi[i] + dai[i-1]; //alfa acumulado
-                        dari[i] = dai[i]/180*PI; //alfa acumulado em radiano
-                        ei[i] = exp(-mi * (dari[i]+beta*(Di[i]))); //fator redutor de tensão por perda de tensão
-                        pinv[i] = f*ei[i]; // tensão resultante após a perda de tensão
-                    }*/
                     printf("Resultado da esquerda para a direita\n");
                     resultado(n, comp, D, ang, da, dar, e, p);
                     printf("Resultado da direita para a esquerda\n");
@@ -176,8 +151,7 @@ int main()
 }
 /********* FIM DA FUNÇÃO PRINCIPAL *******/
 /*--------- Corpo das funções --------- */
-/*
-***** Função resultado *****
+/****** Função resultado *****
 Parâmetros de entrada: int n e os floats *comp, *D, *ang, *da, *dar, *e, *p
 Objetivo: imprimir a tabela de resultados de perda de protenção na tela
 Tipo de retorno: não tem (void)
@@ -193,8 +167,7 @@ void resultado(int n, float *comp, float *D, float *ang, float *da, float *dar, 
     printf("\n");
   return; /* retorno de uma função void  */
 }
-/*
-***** Função resultado *****
+/****** Função resultado *****
 Parâmetros de entrada: int n e os floats f, mi, beta, *comp, *D, *ang, *da, *dar, *e, *p
 Objetivo: calcular a tabela de resultados de perda de protenção
 Tipo de retorno: não tem (void)
@@ -218,4 +191,34 @@ void perdatensao(int n, float f, float mi, float beta, float *comp, float *D, fl
         p[i] = f*e[i]; // tensão resultante após a perda de tensão
     }
   return; /* retorno de uma função void  */
+}
+/****** Função verificar_arq *****
+Parâmetros de entrada: int n e os floats f, mi, beta, *comp, *D, *ang, *da, *dar, *e, *p
+Objetivo: calcular a tabela de resultados de perda de protenção
+Tipo de retorno: não tem (void)
+*/
+void verificar_arq(float *pont_arq)
+{
+    if(pont_arq==NULL)
+    {
+        printf("ERRO! O arquivo não foi aberto!\n");
+    }
+    else
+    {
+        printf("O arquivo foi aberto com sucesso!\n");
+}
+/****** Função verificar_arq *****
+Parâmetros de entrada: int n e os floats f, mi, beta, *comp, *D, *ang, *da, *dar, *e, *p
+Objetivo: calcular a tabela de resultados de perda de protenção
+Tipo de retorno: não tem (void)
+*/
+void ancoragem(float *pont_arq)
+{
+    if(pont_arq==NULL)
+    {
+        printf("ERRO! O arquivo não foi aberto!\n");
+    }
+    else
+    {
+        printf("O arquivo foi aberto com sucesso!\n");
 }
